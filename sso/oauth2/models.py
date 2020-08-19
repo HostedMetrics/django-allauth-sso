@@ -1,8 +1,5 @@
 from django.db import models
 
-from app.models import BaseModel
-from dashboard.models import Company
-
 
 EMAIL_KEY = 'email'
 NAME_KEY = 'name'
@@ -10,7 +7,7 @@ PROFILE_URL_KEY = 'link'
 PHOTO_URL_KEY = 'picture'
 
 
-class Client(BaseModel):
+class Client(models.Model):
     identifier = models.CharField(max_length=64)
     name = models.CharField(max_length=64)
     domain = models.CharField(max_length=128)

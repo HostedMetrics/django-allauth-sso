@@ -25,9 +25,13 @@ class SsoOAuth2Provider(OAuth2Provider):
     name = 'SsoOAuth2'
     account_class = SsoOAuth2Account
 
-    def get_default_scope(self):
+    def get_oauth2_client(self):
         client_identifier = self.request.path.split('/')[-2]
         oauth2_client = Client.objects.get(identifier=client_identifier)
+        return oauth2_client
+
+    def get_default_scope(self):
+        oauth2_client = self.get_oauth2_client()
         scope = oauth2_client.scopes and oauth2_client.scopes.split(' ') or []
         return scope
 
@@ -39,18 +43,21 @@ class SsoOAuth2Provider(OAuth2Provider):
         return ret
 
     def extract_uid(self, data):
-        return str(data['email'])
+        oauth2_client = self.get_oauth2_client()
+        return str(data[oauth2_client.email_key])
 
     def extract_email_addresses(self, data):
         ret = []
-        email = data.get(EMAIL_KEY)
+        oauth2_client = self.get_oauth2_client()
+        email = data.get(oauth2_client.email_key)
         if email:
             ret.append(EmailAddress(email=email, verified=True, primary=True))
         return ret
 
     def extract_common_fields(self, data):
+        oauth2_client = self.get_oauth2_client()
         first_name, last_name = self.full_name_to_first_name_last_name(data.get(NAME_KEY))
-        return dict(email=data.get(EMAIL_KEY),
+        return dict(email=data.get(oauth2_client.email_key),
                     last_name=last_name,
                     first_name=first_name)
 

@@ -17,6 +17,9 @@ class Client(models.Model):
     access_token_url = models.CharField(max_length=256)
     profile_url = models.CharField(max_length=256)
     scopes = models.CharField(max_length=256, null=True, blank=True)
+    email_key = models.CharField(max_length=64)
+    profile_url_key = models.CharField(max_length=64)
+    photo_url_key = models.CharField(max_length=64)
 
     class Meta:
         db_table = 'sso_oauth2_client'
@@ -24,6 +27,7 @@ class Client(models.Model):
 
     def __str__(self):
         return '%s - %s' % (self.name, self.domain, )
+
 
 # TODO: There has to be a way to not need to register it manually! Seems to be caused by the directory nesting?
 from sso.oauth2.provider import SsoOAuth2Provider

@@ -11,9 +11,7 @@ from allauth.socialaccount.providers.oauth2.views import (
 )
 from allauth.utils import build_absolute_uri
 
-from sso.oauth2.models import (
-    Client,
-    EMAIL_KEY, NAME_KEY, PROFILE_URL_KEY, PHOTO_URL_KEY)
+from sso.oauth2.models import Client
 from sso.oauth2.provider import SsoOAuth2Provider
 
 
@@ -71,7 +69,7 @@ class SsoOAuth2Adapter(OAuth2Adapter):
 
         # We trust the email address; therefore, we will add this login method to any existing user with that email address.
         # We do so by creating a SocialAccount if it does not exist.
-        email = extra_data[EMAIL_KEY]
+        email = extra_data[oauth2_client.email_key]
         try:
             user = User.objects.get(email=email)
         except User.DoesNotExist:

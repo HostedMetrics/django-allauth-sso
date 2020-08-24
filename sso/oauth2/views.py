@@ -75,9 +75,9 @@ class SsoOAuth2Adapter(OAuth2Adapter):
         except User.DoesNotExist:
             pass
         else:
-            model_identifier = {'provider': self.provider_id, 'uid': email}
-            if not SocialAccount.objects.filter(**model_identifier).exists():
-                social_account = SocialAccount(user_id=user.id, extra_data=extra_data, **model_identifier)
+            object_identifier = {'provider': self.provider_id, 'uid': email}
+            if not SocialAccount.objects.filter(**object_identifier).exists():
+                social_account = SocialAccount(user_id=user.id, extra_data=extra_data, **object_identifier)
                 social_account.save()
 
         login = self.get_provider() \

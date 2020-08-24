@@ -1,12 +1,6 @@
 from django.db import models
 
 
-EMAIL_KEY = 'email'
-NAME_KEY = 'name'
-PROFILE_URL_KEY = 'link'
-PHOTO_URL_KEY = 'picture'
-
-
 class Client(models.Model):
     identifier = models.CharField(max_length=64)
     name = models.CharField(max_length=64)
@@ -20,6 +14,10 @@ class Client(models.Model):
     email_key = models.CharField(max_length=64)
     profile_url_key = models.CharField(max_length=64)
     photo_url_key = models.CharField(max_length=64)
+    full_name_key = models.CharField(max_length=64, null=True, blank=True)
+    first_name_key = models.CharField(max_length=64, null=True, blank=True)
+    last_name_key = models.CharField(max_length=64, null=True, blank=True)
+    name_parser = models.CharField(max_length=256, null=True, blank=True)
 
     class Meta:
         db_table = 'sso_oauth2_client'

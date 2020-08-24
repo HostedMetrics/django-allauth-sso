@@ -37,3 +37,34 @@ To require email address verification before users can log in means that you hav
 
 Refer to the comment in `sso.oauth2.views.SsoOAuth2Adapter.complete_login` for more details.
 
+Designing a Smooth User Experience for SSO
+===
+To provide as simple and smooth a user experience for SSO, you can implement the following flows:
+
+First login
+---
+User clicks the Log In button and is taken to the login page.
+
+The user login page has a button/link for SSO.
+
+User clicks this button and moves to a page dedicated to SSO login.
+
+This SSO login page asks the user for their email address (you only need the domain, but that can confuse the user).
+
+User clicks the Log In button.
+
+Your backend parses out the domain and redirects the user to `reverse('sso_oauth2_login', kwargs={'client_identifier': 'their-identifier-from-the-database'})`
+
+django-allauth will redirect the user into the OAuth2 authentication flow and if everything works fine, the user will be logged in.
+
+You need to implement a signal to cookie the user to remember their SSO details. This will be used for subsequent logins to shorten the login process.
+
+Subsequent logins
+---
+User clicks the Log In button and is taken to the login page.
+
+The login page finds the cookie set during the first login and presents the user with an informative message and just a button "Log in with `TheirCompanyName`".
+
+The user clicks the button and is redirected to `{% url "sso_oauth2_login" client_identifier="their-identifier-from-the-database" %}`.
+
+django-allauth will redirect the user into the OAuth2 authentication flow and if everything works fine, the user will be logged in.

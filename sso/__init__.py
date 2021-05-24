@@ -11,9 +11,7 @@ Each provider needs to define a client on their end.
 Add your SSO clients in the table: sso_oauth2client
 Your SSO login page needs to redirect to:
     reverse('provider_login_url', 'sso_oauth2', kwargs={'domain': 'example.com'})
-    or
+    or in your Django templates:
     {% load socialaccount %}
     {% provider_login_url "sso_oauth2" domain="example.com" %}
-
-2	2020-08-07 14:17:39.840606+00	2020-08-07 14:17:39.840606+00	airthings	Airthings	5b37bbf3-6001-4068-87e3-87aeaa374349	956d9b7d-99fd-478e-9ff7-2fd5a16fcacd	386	https://accounts-api.airthings.com/v1/token	https://accounts.airthings.com/authorize	https://accounts-api.airthings.com/v1/profile	profile
 """
